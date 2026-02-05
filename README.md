@@ -1,254 +1,156 @@
+<div align="center">
+
 # scaffold-service
 
-> Quickly scaffold service boilerplate code with organized folder structures
+**The modern, interactive CLI for generating production-ready service architectures.**
 
-[![npm version](https://img.shields.io/npm/v/scaffold-service.svg)](https://www.npmjs.com/package/scaffold-service)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Node.js Version](https://img.shields.io/node/v/scaffold-service.svg)](https://nodejs.org)
+[![npm version](https://img.shields.io/npm/v/scaffold-service.svg?style=flat-square&color=00afff)](https://www.npmjs.com/package/scaffold-service)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
+[![Node.js Version](https://img.shields.io/node/v/scaffold-service.svg?style=flat-square)](https://nodejs.org)
+[![Downloads](https://img.shields.io/npm/dt/scaffold-service.svg?style=flat-square)](https://www.npmjs.com/package/scaffold-service)
 
-A CLI tool to generate Node.js service components with two folder structure options: **Separate Folder Structure** (normal way) or **Modular Folder Structure** (all-in-one).
+[Features](#-features) • [Installation](#-installation) • [Usage](#-usage) • [Structures](#-folder-structures) • [Contributing](#-contributing)
+
+</div>
+
+---
+
+## 📖 Overview
+
+**scaffold-service** is a powerful CLI tool designed to eliminate boilerplate fatigue. Whether you prefer a **distributed** (layer-based) architecture or a **modular** (component-based) one, this tool generates consistent, ES6+ ready code in seconds.
+
+Top-tier engineering teams use consistent patterns. `scaffold-service` enforces these patterns automatically, ensuring your services, controllers, validations, and routes are always aligned.
 
 ## ✨ Features
 
-- 🚀 **Two Structure Options** - Choose between separate or modular organization
-- 🎨 **Interactive CLI** - Beautiful command-line interface with color-coded output
-- 📦 **Consistent Naming** - Generates service, controller, validation, and route files
-- ⚡ **ES6+ Ready** - Modern JavaScript with import/export syntax
-- 🔧 **Validation Included** - Pre-configured request validation structure
-
-## 📋 Prerequisites
-
-- Node.js >= 18.0.0
-- npm or yarn
+- **🚀 Two Architecture Modes**: seamless support for both **Layered** (Separate) and **Modular** (Domain-driven) structures.
+- **🎨 Modern CLI Experience**: Beautiful, color-coded interactive prompts using `inquirer`.
+- **⚡ ES6+ & Zod Ready**: Generates modern JavaScript with `import/export` syntax and pre-configured `zod` validation stubs.
+- **📦 Production Best Practices**: Includes standard patterns for Controllers, Services, and Routes out of the box.
+- **🛡️ Type-Safe Validations**: Pre-wired validation middleware integration.
 
 ## 📦 Installation
 
-### Global Installation (Recommended)
+You can use the tool directly via `npx` (recommended) or install it globally.
 
-```bash
-npm install -g scaffold-service
-```
-
-### Use with npx (No Installation)
-
+### Recommended: Run with npx
+No installation required. Always runs the latest version.
 ```bash
 npx scaffold-service
 ```
 
+### Global Installation
+If you use it frequently, install it globally:
+```bash
+npm install -g scaffold-service
+```
+
 ## 🚀 Usage
 
-Navigate to your project's root directory and run:
+Navigate to your project root and run the command:
 
 ```bash
 scaffold-service
 ```
 
-Or if using npx:
+### The Interactive Flow
 
-```bash
-npx scaffold-service
-```
+The CLI will guide you through a simple 3-step process:
 
-Follow the interactive prompts:
+1.  **Select Structure**: Choose between `Separate` or `Modular` architecture.
+2.  **Name Service**: Enter a `snake_case` name (e.g., `user_profile`, `payment_gateway`).
+3.  **Confirm**: Review the preview and confirm generation.
 
-1. **Choose folder structure type** - Separate or Modular
-2. **Enter service name** - Use snake_case (e.g., `user_profile`, `payment`)
-3. **Confirm configuration** - Review and confirm
-4. **Done!** - Files are created in your project
-
-## 📁 Folder Structure Options
-
-### Option 1: Separate Folder Structure (Normal Way)
-
-Files are distributed across different folders by type:
-
-```
-src/
-├── services/
-│   └── user_profile.service.js       # Business logic
-├── validations/
-│   └── user_profile.validation.js    # Request validation
-├── controllers/
-│   └── user_profile.controller.js    # Route handlers
-└── routes/
-    └── v1/
-        └── user_profile.routes.js    # API routes
-```
-
-**Best for:** Traditional projects, larger teams, separation of concerns
-
-### Option 2: Modular Folder Structure (All-in-One)
-
-All related files are grouped in one module folder:
-
-```
-src/
-└── modules/
-    └── user_profile/
-        ├── user_profile.service.js
-        ├── user_profile.validation.js
-        ├── user_profile.controller.js
-        └── user_profile.routes.js
-```
-
-**Best for:** Feature-based organization, microservices, easier navigation
-
-## 📝 Generated Files
-
-Each scaffold creates 4 files:
-
-- \*\*� Examples
-
-### Example 1: Creating a User Profile Service (Separate Structure)
-
-```bash
-$ scaffold-service
-
+```text
 Step 1 → Folder Structure
   ▸ Select folder structure type
-
     [1] Separate Folder Structure (Distributed across folders)
     [2] Modular Folder Structure (All-in-one folder)
 
-→ Enter choice [1/2]: 1
-    ✓ Selected: Separate Folder Structure
-
 Step 2 → Service Name
-  ▸ Enter service name (snake_case or single lowercase word)
-    Examples: payment, user_profile, order_item
-
-→ user_profile
-    ✓ Service name: user_profile
+  ▸ Enter service name: payment_methods
 
 Step 3 → Configuration Preview
-  ╭───────────────────────────────────────────────────────╮
-  │  📊  Service Configuration                            │
-  ╰───────────────────────────────────────────────────────╯
-    Service Name (snake_case):  user_profile
-    CamelCase Name:             userProfile
-    Folder Structure:           Separate Folder Structure
+  📊 Service Configuration
+    Service Name: payment_methods
+    Structure:    Modular
+  
+  ✓ Proceed with creation? (Y/n)
+```
 
-    Files to be created:
-      ✓ src/services/user_profile.service.js
-      ✓ src/validations/user_profile.validation.js
-      ✓ src/controllers/user_profile.controller.js
-      ✓ src/routes/v1/user_profile.routes.js
+## 📂 Folder Structures
 
-✓ Proceed with creation? (Y/n): Y
+We support the two most common Node.js architectural patterns.
 
-✅ Se� Naming Convention
+### Option 1: Separate (Layered)
+*Best for: Traditional MVC applications, large teams with strict separation of concerns.*
 
-- **Service name:** Use `snake_case` (e.g., `user_profile`, `payment`, `order_item`)
-- **Function names:** Automatically converted to `camelCase` in code
-- **File names:** Follow the pattern `{service_name}.{type}.js`
+```text
+src/
+├── controllers/
+│   └── payment_methods.controller.js
+├── services/
+│   └── payment_methods.service.js
+├── validations/
+│   └── payment_methods.validation.js
+└── routes/
+    └── v1/
+        └── payment_methods.routes.js
+```
+
+### Option 2: Modular (Domain-Driven)
+*Best for: Microservices, distinct features, and maintaining high cohesion.*
+
+```text
+src/
+└── modules/
+    └── payment_methods/
+        ├── payment_methods.controller.js
+        ├── payment_methods.service.js
+        ├── payment_methods.validation.js
+        └── payment_methods.routes.js
+```
+
+## 🛠️ Post-Scaffolding Steps
+
+After generating your files, don't forget to register your new route!
+
+1.  Open your main route entry file (e.g., `src/routes/index.js` or `app.js`).
+2.  Import and use the new route:
+
+```javascript
+import paymentMethodsRoutes from './modules/payment_methods/payment_methods.routes.js'; // or from routes/v1/...
+
+// ...
+router.use('/payment-methods', paymentMethodsRoutes);
+```
+
+## 💻 Development
+
+Want to contribute or customize the tool?
+
+1.  Clone the repo:
+    ```bash
+    git clone https://github.com/abubakar-shaikh-dev/scaffold-service.git
+    ```
+2.  Install dependencies:
+    ```bash
+    npm install
+    ```
+3.  Run locally:
+    ```bash
+    npm start
+    ```
 
 ## 🤝 Contributing
 
-Contributions and issues are welcome! Visit the [GitHub repository](https://github.com/abubakar-shaikh-dev/scaffold-service
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
-Step 1 → Folder Structure
-→ Enter choice [1/2]: 2
-    ✓ Selected: Modular Folder Structure
-
-Step 2 → Service Name
-→ payment
-    ✓ Service name: payment
-
-Step 3 → Configuration Preview
-    Service Name (snake_case):  payment
-    CamelCase Name:             payment
-    Folder Structure:           Modular Folder Structure
-
-    Files to be created:
-      ✓ src/modules/payment/payment.service.js
-      ✓ src/modules/payment/payment.validation.js
-      ✓ src/modules/payment/payment.controller.js
-      ✓ src/modules/payment/payment.routes.js
-
-✓ Proceed with creation? (Y/n): Y
-
-✅ Service 'payment' created successfully!
-```
-
-## 📋 File Templates
-
-### Service File (`.service.js`)
-
-```javascript
-// Business logic functions
-const getAll = async () => {
-  /* ... */
-};
-const getById = async (id) => {
-  /* ... */
-};
-const create = async (data) => {
-  /* ... */
-};
-const update = async (id, data) => {
-  /* ... */
-};
-const remove = async (id) => {
-  /* ... */
-};
-
-export default { getAll, getById, create, update, remove };
-```
-
-### Controller File (`.controller.js`)
-
-```javascript
-// HTTP request handlers
-const getAll = async (req, res) => {
-  /* ... */
-};
-const getById = async (req, res) => {
-  /* ... */
-};
-const create = async (req, res) => {
-  /* ... */
-};
-const update = async (req, res) => {
-  /* ... */
-};
-const remove = async (req, res) => {
-  /* ... */
-};
-
-export default { getAll, getById, create, update, remove };
-```
-
-### Routes File (`.routes.js`)
-
-```javascript
-import express from 'express';
-const router = express.Router();
-
-router.get('/', controller.getAll);
-router.get('/:id', controller.getById);
-router.post('/', validate, controller.create);
-router.patch('/:id', validate, controller.update);
-router.delete('/:id', controller.remove);
-
-export default router;
-# Start development server
-npm run dev
-
-# Start production server
-npm start
-```
-
-## 📚 Documentation
-
-For more detailed documentation, visit the [GitHub repository](https://github.com/abubakar-shaikh-dev/scaffold-service).
-
-## 🤝 Contributing
-
-Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/abubakar-shaikh-dev/scaffold-service/issues).
-
-## 📄 License
-
-This project is [MIT](LICENSE) licensed.
+1.  Fork the Project
+2.  Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3.  Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4.  Push to the Branch (`git push origin feature/AmazingFeature`)
+5.  Open a Pull Request
 
 ## 👤 Author
 
@@ -257,14 +159,6 @@ This project is [MIT](LICENSE) licensed.
 - GitHub: [@abubakar-shaikh-dev](https://github.com/abubakar-shaikh-dev)
 - Repository: [scaffold-service](https://github.com/abubakar-shaikh-dev/scaffold-service)
 
-## ⭐ Show your support
+## 📄 License
 
-Give a ⭐️ if this project helped you!
-
-## 📝 Changelog
-
-See [CHANGELOG.md](CHANGELOG.md) for a list of changes.
-
----
-
-Created by [ABUBAKAR SHAIKH](https://github.com/abubakar-shaikh-dev)
+Distributed under the MIT License. See `LICENSE` for more information.
