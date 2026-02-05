@@ -15,6 +15,7 @@ import chalk from "chalk";
 import inquirer from "inquirer";
 import fs from "fs-extra";
 import path from "path";
+import * as emoji from "node-emoji";
 
 // Note: This tool runs from the current working directory (where user executes the command)
 // When installed via npm/npx, files will be created in the user's project root
@@ -60,52 +61,61 @@ function parseCliArgs(argv) {
 
 function printHelp() {
   console.log("");
-  console.log(chalk.bold.white("  scaffold-service") + chalk.dim(" - Service scaffolding CLI"));
+  console.log(
+    chalk.bold.white("  scaffold-service") +
+      chalk.dim(" - Service scaffolding CLI"),
+  );
   console.log("");
   console.log(chalk.bold.white("  USAGE"));
-  console.log(chalk.dim("  ─────────────────────────────────────────────────────────"));
+  console.log(
+    chalk.dim("  ─────────────────────────────────────────────────────────"),
+  );
   console.log("    $ scaffold-service [options]");
   console.log("");
   console.log(chalk.bold.white("  OPTIONS"));
-  console.log(chalk.dim("  ─────────────────────────────────────────────────────────"));
+  console.log(
+    chalk.dim("  ─────────────────────────────────────────────────────────"),
+  );
   console.log(
     "    " +
       chalk.cyan("-n, --name <name>") +
       "        " +
-      chalk.dim("Service name (snake_case)")
+      chalk.dim("Service name (snake_case)"),
   );
   console.log(
     "    " +
       chalk.cyan("-s, --structure <type>") +
       "   " +
-      chalk.dim("Folder structure: separate | modular")
+      chalk.dim("Folder structure: separate | modular"),
   );
   console.log(
     "    " +
       chalk.cyan("-ts, --typescript") +
       "        " +
-      chalk.dim("Generate TypeScript files (.ts)")
+      chalk.dim("Generate TypeScript files (.ts)"),
   );
   console.log(
     "    " +
       chalk.cyan("-h, --help") +
       "               " +
-      chalk.dim("Show this help message")
+      chalk.dim("Show this help message"),
   );
   console.log("");
   console.log(chalk.bold.white("  EXAMPLES"));
-  console.log(chalk.dim("  ─────────────────────────────────────────────────────────"));
   console.log(
-    "    " +
-      chalk.dim("$") +
-      " scaffold-service " +
-      chalk.cyan("--name=payment --structure=modular")
+    chalk.dim("  ─────────────────────────────────────────────────────────"),
   );
   console.log(
     "    " +
       chalk.dim("$") +
       " scaffold-service " +
-      chalk.cyan("-n user_profile -s separate -ts")
+      chalk.cyan("--name=payment --structure=modular"),
+  );
+  console.log(
+    "    " +
+      chalk.dim("$") +
+      " scaffold-service " +
+      chalk.cyan("-n user_profile -s separate -ts"),
   );
   console.log("");
 }
@@ -116,7 +126,9 @@ function validateCliArgs(args) {
   if (args.name) {
     const snakeCaseRegex = /^[a-z]+(_[a-z]+)*$/;
     if (!snakeCaseRegex.test(args.name)) {
-      errors.push("Service name must be in snake_case or a single lowercase word");
+      errors.push(
+        "Service name must be in snake_case or a single lowercase word",
+      );
     }
   }
 
@@ -169,7 +181,7 @@ function errorExit(message) {
   );
   console.log(
     colors.red.bold(
-      "│  ⚠️  ERROR                                              │",
+      `│  ${emoji.get("warning")}  ERROR                                              │`,
     ),
   );
   console.log(
@@ -184,17 +196,21 @@ function errorExit(message) {
 
 // Success message helper
 function printSuccess(message) {
-  console.log(`${colors.green("  ✓ ")}${colors.white(message)}`);
+  console.log(
+    `${colors.green(`  ${emoji.get("white_check_mark")} `)}${colors.white(message)}`,
+  );
 }
 
 // Info message helper
 function printInfo(message) {
-  console.log(`${colors.cyan("  ▸ ")}${colors.dim(message)}`);
+  console.log(
+    `${colors.cyan(`  ${emoji.get("small_blue_diamond")} `)}${colors.dim(message)}`,
+  );
 }
 
 // Warning message helper
 function printWarning(message) {
-  console.log(`${colors.yellow("  ⚠ ")}${message}`);
+  console.log(`${colors.yellow(`  ${emoji.get("warning")} `)}${message}`);
 }
 
 // Clear console
@@ -217,9 +233,11 @@ function printBanner() {
   );
   console.log(
     colors.gradient2("║         ") +
-      colors.white.bold("🏗️   S E R V I C E   S C A F F O L D E R") +
+      colors.white.bold(
+        `${emoji.get("building_construction")}   S E R V I C E   S C A F F O L D E R`,
+      ) +
       "   " +
-      colors.gradient2("🏗️") +
+      colors.gradient2(emoji.get("building_construction")) +
       "           " +
       colors.gradient2("║"),
   );
@@ -306,7 +324,8 @@ async function selectFolderStructure() {
   console.log("");
 
   console.log(
-    colors.cyan("  ▸ ") + colors.white("Select folder structure type"),
+    colors.cyan(`  ${emoji.get("small_blue_diamond")} `) +
+      colors.white("Select folder structure type"),
   );
   console.log("");
   console.log(
@@ -402,7 +421,8 @@ async function selectFolderStructure() {
     choice === "1" ? "Separate Folder Structure" : "Modular Folder Structure";
 
   console.log(
-    colors.green("    ✓ Selected: ") + colors.bold.white(structureName),
+    colors.green(`    ${emoji.get("white_check_mark")} Selected: `) +
+      colors.bold.white(structureName),
   );
   console.log("");
 
@@ -428,7 +448,8 @@ async function selectLanguage() {
   console.log("");
 
   console.log(
-    colors.cyan("  ▸ ") + colors.white("Select programming language"),
+    colors.cyan(`  ${emoji.get("small_blue_diamond")} `) +
+      colors.white("Select programming language"),
   );
   console.log("");
   console.log(
@@ -459,7 +480,9 @@ async function selectLanguage() {
         if (input === "1" || input === "2") {
           return true;
         }
-        return colors.red("✗ Invalid choice. Please enter 1 or 2");
+        return colors.red(
+          `${emoji.get("x")} Invalid choice. Please enter 1 or 2`,
+        );
       },
     },
   ]);
@@ -468,7 +491,8 @@ async function selectLanguage() {
   const languageName = choice === "1" ? "JavaScript" : "TypeScript";
 
   console.log(
-    colors.green("    ✓ Selected: ") + colors.bold.white(languageName),
+    colors.green(`    ${emoji.get("white_check_mark")} Selected: `) +
+      colors.bold.white(languageName),
   );
   console.log("");
 
@@ -494,7 +518,7 @@ async function getServiceName() {
   console.log("");
 
   console.log(
-    colors.cyan("  ▸ ") +
+    colors.cyan(`  ${emoji.get("small_blue_diamond")} `) +
       colors.white("Enter service name ") +
       colors.dim("(snake_case or single lowercase word)"),
   );
@@ -516,14 +540,14 @@ async function getServiceName() {
       prefix: " ",
       validate: (input) => {
         if (!input || input.trim() === "") {
-          return colors.red("✗ Service name cannot be empty");
+          return colors.red(`${emoji.get("x")} Service name cannot be empty`);
         }
 
         // Validate the input name (snake_case or single lowercase word)
         const snakeCaseRegex = /^[a-z]+(_[a-z]+)*$/;
         if (!snakeCaseRegex.test(input)) {
           return colors.red(
-            "✗ Service name must be in snake_case or a single lowercase word",
+            `${emoji.get("x")} Service name must be in snake_case or a single lowercase word`,
           );
         }
 
@@ -532,7 +556,10 @@ async function getServiceName() {
     },
   ]);
 
-  console.log(colors.green("    ✓ Service name: ") + colors.bold.white(name));
+  console.log(
+    colors.green(`    ${emoji.get("white_check_mark")} Service name: `) +
+      colors.bold.white(name),
+  );
   console.log("");
 
   return name;
@@ -548,7 +575,12 @@ function snakeToCamel(str) {
 // ═══════════════════════════════════════════════════════════════════════════
 // CONFIGURATION PREVIEW
 // ═══════════════════════════════════════════════════════════════════════════
-async function showConfigurationPreview(name, camelName, folderStructure, language) {
+async function showConfigurationPreview(
+  name,
+  camelName,
+  folderStructure,
+  language,
+) {
   console.log(
     colors.bold.white("Step 4") +
       " " +
@@ -586,7 +618,10 @@ async function showConfigurationPreview(name, camelName, folderStructure, langua
     "    " + colors.gray("Camel Case") + "         " + colors.accent(camelName),
   );
   console.log(
-    "    " + colors.gray("Language") + "           " + colors.accent(language === "ts" ? "TypeScript" : "JavaScript"),
+    "    " +
+      colors.gray("Language") +
+      "           " +
+      colors.accent(language === "ts" ? "TypeScript" : "JavaScript"),
   );
 
   if (folderStructure === "current") {
@@ -673,7 +708,9 @@ async function showConfigurationPreview(name, camelName, folderStructure, langua
   ]);
 
   if (!proceed) {
-    console.log(colors.yellow("\n  ⚠ Operation cancelled by user."));
+    console.log(
+      colors.yellow(`\n  ${emoji.get("warning")} Operation cancelled by user.`),
+    );
     process.exit(0);
   }
 
@@ -859,7 +896,12 @@ export default router;
 // ═══════════════════════════════════════════════════════════════════════════
 // FILE GENERATION
 // ═══════════════════════════════════════════════════════════════════════════
-async function generateFiles(name, camelName, folderStructure, language = "js") {
+async function generateFiles(
+  name,
+  camelName,
+  folderStructure,
+  language = "js",
+) {
   const ext = language === "ts" ? ".ts" : ".js";
   console.log(
     colors.bold.white("Step 5") +
@@ -895,9 +937,10 @@ async function generateFiles(name, camelName, folderStructure, language = "js") 
 
     // Create the service file
     const serviceFile = path.join(servicesFolder, `${name}.service${ext}`);
-    const serviceContent = language === "ts" 
-      ? getServiceTemplateTS(folderStructure) 
-      : getServiceTemplate(folderStructure);
+    const serviceContent =
+      language === "ts"
+        ? getServiceTemplateTS(folderStructure)
+        : getServiceTemplate(folderStructure);
     await fs.writeFile(serviceFile, serviceContent);
     printSuccess(`Created: ${colors.cyan(serviceFile)}`);
     filesCreated.push(serviceFile);
@@ -907,9 +950,8 @@ async function generateFiles(name, camelName, folderStructure, language = "js") 
       validationsFolder,
       `${name}.validation${ext}`,
     );
-    const validationContent = language === "ts" 
-      ? getValidationTemplateTS() 
-      : getValidationTemplate();
+    const validationContent =
+      language === "ts" ? getValidationTemplateTS() : getValidationTemplate();
     await fs.writeFile(validationFile, validationContent);
     printSuccess(`Created: ${colors.cyan(validationFile)}`);
     filesCreated.push(validationFile);
@@ -919,18 +961,20 @@ async function generateFiles(name, camelName, folderStructure, language = "js") 
       controllersFolder,
       `${name}.controller${ext}`,
     );
-    const controllerContent = language === "ts" 
-      ? getControllerTemplateTS(name, camelName, folderStructure) 
-      : getControllerTemplate(name, camelName, folderStructure);
+    const controllerContent =
+      language === "ts"
+        ? getControllerTemplateTS(name, camelName, folderStructure)
+        : getControllerTemplate(name, camelName, folderStructure);
     await fs.writeFile(controllerFile, controllerContent);
     printSuccess(`Created: ${colors.cyan(controllerFile)}`);
     filesCreated.push(controllerFile);
 
     // Create the router file
     const routerFile = path.join(routesFolder, `${name}.routes${ext}`);
-    const routerContent = language === "ts" 
-      ? getRouterTemplateTS(name, camelName, folderStructure) 
-      : getRouterTemplate(name, camelName, folderStructure);
+    const routerContent =
+      language === "ts"
+        ? getRouterTemplateTS(name, camelName, folderStructure)
+        : getRouterTemplate(name, camelName, folderStructure);
     await fs.writeFile(routerFile, routerContent);
     printSuccess(`Created: ${colors.cyan(routerFile)}`);
     filesCreated.push(routerFile);
@@ -949,36 +993,38 @@ async function generateFiles(name, camelName, folderStructure, language = "js") 
 
     // Create the service file
     const serviceFile = path.join(moduleFolder, `${name}.service${ext}`);
-    const serviceContent = language === "ts" 
-      ? getServiceTemplateTS(folderStructure) 
-      : getServiceTemplate(folderStructure);
+    const serviceContent =
+      language === "ts"
+        ? getServiceTemplateTS(folderStructure)
+        : getServiceTemplate(folderStructure);
     await fs.writeFile(serviceFile, serviceContent);
     printSuccess(`Created: ${colors.cyan(serviceFile)}`);
     filesCreated.push(serviceFile);
 
     // Create the validation file
     const validationFile = path.join(moduleFolder, `${name}.validation${ext}`);
-    const validationContent = language === "ts" 
-      ? getValidationTemplateTS() 
-      : getValidationTemplate();
+    const validationContent =
+      language === "ts" ? getValidationTemplateTS() : getValidationTemplate();
     await fs.writeFile(validationFile, validationContent);
     printSuccess(`Created: ${colors.cyan(validationFile)}`);
     filesCreated.push(validationFile);
 
     // Create the controller file
     const controllerFile = path.join(moduleFolder, `${name}.controller${ext}`);
-    const controllerContent = language === "ts" 
-      ? getControllerTemplateTS(name, camelName, folderStructure) 
-      : getControllerTemplate(name, camelName, folderStructure);
+    const controllerContent =
+      language === "ts"
+        ? getControllerTemplateTS(name, camelName, folderStructure)
+        : getControllerTemplate(name, camelName, folderStructure);
     await fs.writeFile(controllerFile, controllerContent);
     printSuccess(`Created: ${colors.cyan(controllerFile)}`);
     filesCreated.push(controllerFile);
 
     // Create the router file
     const routerFile = path.join(moduleFolder, `${name}.routes${ext}`);
-    const routerContent = language === "ts" 
-      ? getRouterTemplateTS(name, camelName, folderStructure) 
-      : getRouterTemplate(name, camelName, folderStructure);
+    const routerContent =
+      language === "ts"
+        ? getRouterTemplateTS(name, camelName, folderStructure)
+        : getRouterTemplate(name, camelName, folderStructure);
     await fs.writeFile(routerFile, routerContent);
     printSuccess(`Created: ${colors.cyan(routerFile)}`);
     filesCreated.push(routerFile);
@@ -1009,7 +1055,9 @@ function printSuccessSummary(name, folderStructure, filesCreated) {
   );
   console.log(
     colors.gradient2("║             ") +
-      colors.bold.green("✓  O P E R A T I O N   S U C C E S S") +
+      colors.bold.green(
+        `${emoji.get("white_check_mark")}  O P E R A T I O N   S U C C E S S`,
+      ) +
       "              " +
       colors.gradient2("║"),
   );
@@ -1026,7 +1074,7 @@ function printSuccessSummary(name, folderStructure, filesCreated) {
   console.log("");
   console.log(
     "  " +
-      colors.gradient3("▸") +
+      colors.gradient3(emoji.get("small_blue_diamond")) +
       " " +
       colors.gray("Service Name") +
       "         " +
@@ -1034,7 +1082,7 @@ function printSuccessSummary(name, folderStructure, filesCreated) {
   );
   console.log(
     "  " +
-      colors.gradient3("▸") +
+      colors.gradient3(emoji.get("small_blue_diamond")) +
       " " +
       colors.gray("Folder Structure") +
       "     " +
@@ -1046,7 +1094,7 @@ function printSuccessSummary(name, folderStructure, filesCreated) {
   );
   console.log(
     "  " +
-      colors.gradient3("▸") +
+      colors.gradient3(emoji.get("small_blue_diamond")) +
       " " +
       colors.gray("Files Created") +
       "        " +
@@ -1055,7 +1103,6 @@ function printSuccessSummary(name, folderStructure, filesCreated) {
   console.log("");
   console.log(
     colors.dim.gray(
-    
       "───────────────────────────────────────────────────────────────",
     ),
   );
@@ -1068,7 +1115,12 @@ function printSuccessSummary(name, folderStructure, filesCreated) {
   console.log("");
 
   for (const file of filesCreated) {
-    console.log("  " + colors.cyan("•") + " " + colors.dim(file));
+    console.log(
+      "  " +
+        colors.cyan(emoji.get("small_orange_diamond")) +
+        " " +
+        colors.dim(file),
+    );
   }
 
   console.log("");
@@ -1154,7 +1206,7 @@ async function main() {
     const validationErrors = validateCliArgs(cliArgs);
     if (validationErrors.length > 0) {
       for (const error of validationErrors) {
-        console.log(colors.red(`  ✗ ${error}`));
+        console.log(colors.red(`  ${emoji.get("x")} ${error}`));
       }
       console.log("");
       printHelp();
@@ -1170,9 +1222,9 @@ async function main() {
     } else {
       console.log("");
       console.log(
-        colors.gradient1("  ⚡ ") +
+        colors.gradient1(`  ${emoji.get("zap")} `) +
           colors.bold.white("Quick Mode") +
-          colors.dim(" - Generating service files...")
+          colors.dim(" - Generating service files..."),
       );
       console.log("");
     }
@@ -1186,10 +1238,18 @@ async function main() {
         modular: "modular",
         current: "current",
       };
-      folderStructure = structureMap[cliArgs.structure.toLowerCase()] || "current";
+      folderStructure =
+        structureMap[cliArgs.structure.toLowerCase()] || "current";
       if (!isNonInteractive) {
-        const structureName = folderStructure === "current" ? "Separate Folder Structure" : "Modular Folder Structure";
-        console.log(colors.green("  ✓ Structure: ") + colors.bold.white(structureName) + colors.dim(" (from CLI)"));
+        const structureName =
+          folderStructure === "current"
+            ? "Separate Folder Structure"
+            : "Modular Folder Structure";
+        console.log(
+          colors.green(`  ${emoji.get("white_check_mark")} Structure: `) +
+            colors.bold.white(structureName) +
+            colors.dim(" (from CLI)"),
+        );
       }
     } else {
       folderStructure = await selectFolderStructure();
@@ -1200,7 +1260,11 @@ async function main() {
     if (cliArgs.typescript) {
       language = "ts";
       if (!isNonInteractive) {
-        console.log(colors.green("  ✓ Language: ") + colors.bold.white("TypeScript") + colors.dim(" (from CLI)"));
+        console.log(
+          colors.green(`  ${emoji.get("white_check_mark")} Language: `) +
+            colors.bold.white("TypeScript") +
+            colors.dim(" (from CLI)"),
+        );
       }
     } else if (isNonInteractive) {
       // Default to JS in non-interactive mode if --typescript not specified
@@ -1214,7 +1278,11 @@ async function main() {
     if (cliArgs.name) {
       name = cliArgs.name.toLowerCase();
       if (!isNonInteractive) {
-        console.log(colors.green("  ✓ Service name: ") + colors.bold.white(name) + colors.dim(" (from CLI)"));
+        console.log(
+          colors.green(`  ${emoji.get("white_check_mark")} Service name: `) +
+            colors.bold.white(name) +
+            colors.dim(" (from CLI)"),
+        );
         console.log("");
       }
     } else {
@@ -1225,7 +1293,12 @@ async function main() {
 
     // Step 4: Show configuration preview and confirm (skip in non-interactive mode)
     if (!isNonInteractive) {
-      await showConfigurationPreview(lowerName, camelName, folderStructure, language);
+      await showConfigurationPreview(
+        lowerName,
+        camelName,
+        folderStructure,
+        language,
+      );
     }
 
     // Step 5: Generate files
@@ -1242,7 +1315,11 @@ async function main() {
     if (error.isTtyError) {
       errorExit("Prompt couldn't be rendered in the current environment");
     } else if (error.name === "ExitPromptError") {
-      console.log(colors.yellow("\n  ⚠ Operation cancelled by user."));
+      console.log(
+        colors.yellow(
+          `\n  ${emoji.get("warning")} Operation cancelled by user.`,
+        ),
+      );
       process.exit(0);
     } else {
       errorExit(error.message);
