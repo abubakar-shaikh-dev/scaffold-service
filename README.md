@@ -23,11 +23,13 @@ Top-tier engineering teams use consistent patterns. `scaffold-service` enforces 
 
 ## ✨ Features
 
-- **🚀 Two Architecture Modes**: seamless support for both **Layered** (Separate) and **Modular** (Domain-driven) structures.
+- **🚀 Two Architecture Modes**: Seamless support for both **Layered** (Separate) and **Modular** (Domain-driven) structures.
+- **📘 TypeScript Support**: Generate `.ts` files with proper type annotations and Express types.
+- **⚡ Non-Interactive Mode**: Skip prompts with CLI flags for automation and scripting.
 - **🎨 Modern CLI Experience**: Beautiful, color-coded interactive prompts using `inquirer`.
-- **⚡ ES6+ & Zod Ready**: Generates modern JavaScript with `import/export` syntax and pre-configured `zod` validation stubs.
+- **⚡ ES6+ & Zod Ready**: Generates modern JavaScript/TypeScript with `import/export` syntax and pre-configured `zod` validation stubs.
 - **📦 Production Best Practices**: Includes standard patterns for Controllers, Services, and Routes out of the box.
-- **🛡️ Type-Safe Validations**: Pre-wired validation middleware integration.
+- **🛡️ Type-Safe Validations**: Pre-wired validation middleware integration with Zod type inference.
 
 ## 📦 Installation
 
@@ -55,11 +57,12 @@ scaffold-service
 
 ### The Interactive Flow
 
-The CLI will guide you through a simple 3-step process:
+The CLI will guide you through a 4-step process:
 
 1.  **Select Structure**: Choose between `Separate` or `Modular` architecture.
-2.  **Name Service**: Enter a `snake_case` name (e.g., `user_profile`, `payment_gateway`).
-3.  **Confirm**: Review the preview and confirm generation.
+2.  **Select Language**: Choose between `JavaScript` or `TypeScript`.
+3.  **Name Service**: Enter a `snake_case` name (e.g., `user_profile`, `payment_gateway`).
+4.  **Confirm**: Review the preview and confirm generation.
 
 ```text
 Step 1 → Folder Structure
@@ -67,16 +70,45 @@ Step 1 → Folder Structure
     [1] Separate Folder Structure (Distributed across folders)
     [2] Modular Folder Structure (All-in-one folder)
 
-Step 2 → Service Name
+Step 2 → Language
+  ▸ Select programming language
+    [1] JavaScript (.js files)
+    [2] TypeScript (.ts files with type annotations)
+
+Step 3 → Service Name
   ▸ Enter service name: payment_methods
 
-Step 3 → Configuration Preview
+Step 4 → Configuration Preview
   📊 Service Configuration
     Service Name: payment_methods
+    Language:     TypeScript
     Structure:    Modular
   
   ✓ Proceed with creation? (Y/n)
 ```
+
+### Non-Interactive Mode (CLI Flags)
+
+For automation and scripting, skip prompts entirely with CLI flags:
+
+```bash
+# Generate JavaScript service with modular structure
+scaffold-service --name=payment --structure=modular
+
+# Generate TypeScript service with separate structure
+scaffold-service -n user_profile -s separate -ts
+
+# Show help
+scaffold-service --help
+```
+
+**Available Flags:**
+| Flag | Short | Description |
+|------|-------|-------------|
+| `--name <name>` | `-n` | Service name (snake_case) |
+| `--structure <type>` | `-s` | `separate` or `modular` |
+| `--typescript` | `-ts` | Generate TypeScript files |
+| `--help` | `-h` | Show usage information |
 
 ## 📂 Folder Structures
 

@@ -5,6 +5,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2026-02-06
+
+### Added
+
+- **TypeScript Support**: Generate `.ts` files with proper type annotations
+  - New language selection prompt (Step 2)
+  - TypeScript templates for service, validation, controller, and routes
+  - Express `Request`/`Response` types in controller templates
+  - Zod type inference examples in validation templates
+- **Non-Interactive CLI Mode**: Skip prompts with command-line flags
+  - `--name` / `-n`: Set service name directly
+  - `--structure` / `-s`: Set folder structure (`separate` or `modular`)
+  - `--typescript` / `-ts`: Generate TypeScript files
+  - `--help` / `-h`: Show usage information
+- Quick Mode indicator when running with CLI flags
+
+### Changed
+
+- Updated step numbering to accommodate language selection (5 steps total)
+- Improved configuration preview to show selected language
+
+---
+
 ## [2.0.0] - 2026-02-05
 
 ### Added

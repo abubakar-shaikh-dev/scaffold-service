@@ -791,7 +791,7 @@ function getControllerTemplateTS(name, camelName, folderStructure) {
       ? `../validations/${name}.validation`
       : `./${name}.validation`;
 
-  return `import { Request, Response, NextFunction } from "express";
+  return `import { Request, Response } from "express";
 
 //Services
 import * as ${camelName}Service from "${serviceImportPath}";
@@ -800,16 +800,22 @@ import * as ${camelName}Service from "${serviceImportPath}";
 import * as ${camelName}Validation from "${validationImportPath}";
 
 // Example controller method
-// export const getAll = async (
-//   req: Request,
-//   res: Response,
-//   next: NextFunction
-// ): Promise<void> => {
+// export const getAll = async (req: Request, res: Response): Promise<void> => {
 //   try {
 //     // Your logic here
-//     res.status(200).json({ success: true });
+//     res.status(200).json({ success: true, data: [] });
 //   } catch (error) {
-//     next(error);
+//     res.status(500).json({ success: false, message: "Internal server error" });
+//   }
+// };
+
+// export const getById = async (req: Request, res: Response): Promise<void> => {
+//   try {
+//     const { id } = req.params;
+//     // Your logic here
+//     res.status(200).json({ success: true, data: null });
+//   } catch (error) {
+//     res.status(500).json({ success: false, message: "Internal server error" });
 //   }
 // };
 `;
@@ -1049,6 +1055,7 @@ function printSuccessSummary(name, folderStructure, filesCreated) {
   console.log("");
   console.log(
     colors.dim.gray(
+    
       "───────────────────────────────────────────────────────────────",
     ),
   );
