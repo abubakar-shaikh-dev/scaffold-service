@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // ═══════════════════════════════════════════════════════════════════════════
-// Service Scaffolder Tool v2.0.0
+// Service Scaffolder Tool v2.1.0
 // ═══════════════════════════════════════════════════════════════════════════
 // Author    : ABUBAKAR SHAIKH
 // Github    : https://github.com/abubakar-shaikh-dev

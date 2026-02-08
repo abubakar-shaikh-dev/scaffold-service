@@ -1,16 +1,16 @@
 {
-  "name": "scaffold-service",
+  "name": "skelr",
   "version": "2.1.0",
   "description": "CLI tool to scaffold service files with separate or modular folder structures",
-  "main": "scaffold-service.js",
+  "main": "skelr.js",
   "type": "module",
   "bin": {
-    "scaffold-service": "./scaffold-service.js"
+    "skelr": "./skelr.js"
   },
   "scripts": {
-    "start": "node scaffold-service.js",
-    "scaffold": "node scaffold-service.js",
-    "prepublishOnly": "node -e \"console.log('Publishing scaffold-service v' + require('./package.json').version); if (require('fs').existsSync('.git/index')) { console.log('Git repo detected - ready to publish'); } else { console.warn('Warning: Not in a git repository'); }\""
+    "start": "node skelr.js",
+    "scaffold": "node skelr.js",
+    "prepublishOnly": "node -e \"console.log('Publishing skelr v' + require('./package.json').version); if (require('fs').existsSync('.git/index')) { console.log('Git repo detected - ready to publish'); } else { console.warn('Warning: Not in a git repository'); }\""
   },
   "keywords": [
     "scaffold",
