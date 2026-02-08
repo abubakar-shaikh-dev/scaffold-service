@@ -12,8 +12,9 @@
 // ═══════════════════════════════════════════════════════════════════════════
 
 import chalk from "chalk";
-import inquirer from "inquirer";
-import fs from "fs-extra";
+import * as p from "@clack/prompts";
+import fs from "fs/promises";
+import { existsSync } from "fs";
 import path from "path";
 import * as emoji from "node-emoji";
 
@@ -401,20 +402,32 @@ async function selectFolderStructure() {
   );
   console.log("");
 
-  const { choice } = await inquirer.prompt([
-    {
-      type: "input",
-      name: "choice",
-      message: colors.bold.white("→ Enter choice [1/2]:"),
-      prefix: " ",
-      validate: (input) => {
-        if (input === "1" || input === "2") {
-          return true;
-        }
-        return colors.red("✗ Invalid choice. Please enter 1 or 2");
+  const choice = await p.select({
+    message: colors.bold.white("Select folder structure:"),
+    options: [
+      {
+        value: "1",
+        label:
+          colors.accent("Separate Folder Structure") +
+          " " +
+          colors.dim("(Distributed across folders)"),
       },
-    },
-  ]);
+      {
+        value: "2",
+        label:
+          colors.accent("Modular Folder Structure") +
+          " " +
+          colors.dim("(All-in-one folder)"),
+      },
+    ],
+  });
+
+  if (p.isCancel(choice)) {
+    console.log(
+      colors.yellow(`\n  ${emoji.get("warning")} Operation cancelled by user.`),
+    );
+    process.exit(0);
+  }
 
   const folderStructure = choice === "1" ? "current" : "modular";
   const structureName =
@@ -470,22 +483,29 @@ async function selectLanguage() {
   );
   console.log("");
 
-  const { choice } = await inquirer.prompt([
-    {
-      type: "input",
-      name: "choice",
-      message: colors.bold.white("→ Enter choice [1/2]:"),
-      prefix: " ",
-      validate: (input) => {
-        if (input === "1" || input === "2") {
-          return true;
-        }
-        return colors.red(
-          `${emoji.get("x")} Invalid choice. Please enter 1 or 2`,
-        );
+  const choice = await p.select({
+    message: colors.bold.white("Select programming language:"),
+    options: [
+      {
+        value: "1",
+        label: colors.accent("JavaScript") + " " + colors.dim("(.js files)"),
       },
-    },
-  ]);
+      {
+        value: "2",
+        label:
+          colors.accent("TypeScript") +
+          " " +
+          colors.dim("(.ts files with type annotations)"),
+      },
+    ],
+  });
+
+  if (p.isCancel(choice)) {
+    console.log(
+      colors.yellow(`\n  ${emoji.get("warning")} Operation cancelled by user.`),
+    );
+    process.exit(0);
+  }
 
   const language = choice === "1" ? "js" : "ts";
   const languageName = choice === "1" ? "JavaScript" : "TypeScript";
@@ -532,29 +552,30 @@ async function getServiceName() {
   );
   console.log("");
 
-  const { name } = await inquirer.prompt([
-    {
-      type: "input",
-      name: "name",
-      message: colors.bold.white("→"),
-      prefix: " ",
-      validate: (input) => {
-        if (!input || input.trim() === "") {
-          return colors.red(`${emoji.get("x")} Service name cannot be empty`);
-        }
+  const name = await p.text({
+    message: colors.bold.white("Enter service name:"),
+    placeholder: "e.g., payment, user_profile, order_item",
+    validate: (input) => {
+      if (!input || input.trim() === "") {
+        return colors.red(`${emoji.get("x")} Service name cannot be empty`);
+      }
 
-        // Validate the input name (snake_case or single lowercase word)
-        const snakeCaseRegex = /^[a-z]+(_[a-z]+)*$/;
-        if (!snakeCaseRegex.test(input)) {
-          return colors.red(
-            `${emoji.get("x")} Service name must be in snake_case or a single lowercase word`,
-          );
-        }
-
-        return true;
-      },
+      // Validate the input name (snake_case or single lowercase word)
+      const snakeCaseRegex = /^[a-z]+(_[a-z]+)*$/;
+      if (!snakeCaseRegex.test(input)) {
+        return colors.red(
+          `${emoji.get("x")} Service name must be in snake_case or a single lowercase word`,
+        );
+      }
     },
-  ]);
+  });
+
+  if (p.isCancel(name)) {
+    console.log(
+      colors.yellow(`\n  ${emoji.get("warning")} Operation cancelled by user.`),
+    );
+    process.exit(0);
+  }
 
   console.log(
     colors.green(`    ${emoji.get("white_check_mark")} Service name: `) +
@@ -697,17 +718,12 @@ async function showConfigurationPreview(
   );
   console.log("");
 
-  const { proceed } = await inquirer.prompt([
-    {
-      type: "confirm",
-      name: "proceed",
-      message: colors.bold.white("Proceed with scaffolding?"),
-      prefix: " ",
-      default: false,
-    },
-  ]);
+  const proceed = await p.confirm({
+    message: colors.bold.white("Proceed with scaffolding?"),
+    initialValue: false,
+  });
 
-  if (!proceed) {
+  if (p.isCancel(proceed) || !proceed) {
     console.log(
       colors.yellow(`\n  ${emoji.get("warning")} Operation cancelled by user.`),
     );
@@ -930,10 +946,10 @@ async function generateFiles(
     const routesFolder = "src/routes/v1";
 
     // Create the necessary folders if they don't exist
-    await fs.ensureDir(servicesFolder);
-    await fs.ensureDir(validationsFolder);
-    await fs.ensureDir(controllersFolder);
-    await fs.ensureDir(routesFolder);
+    await fs.mkdir(servicesFolder, { recursive: true });
+    await fs.mkdir(validationsFolder, { recursive: true });
+    await fs.mkdir(controllersFolder, { recursive: true });
+    await fs.mkdir(routesFolder, { recursive: true });
 
     // Create the service file
     const serviceFile = path.join(servicesFolder, `${name}.service${ext}`);
@@ -986,7 +1002,7 @@ async function generateFiles(
     const moduleFolder = path.join("src/modules", name);
 
     // Create the module folder
-    await fs.ensureDir(moduleFolder);
+    await fs.mkdir(moduleFolder, { recursive: true });
 
     printInfo(`Creating module folder: ${colors.cyan(moduleFolder)}`);
     console.log("");
